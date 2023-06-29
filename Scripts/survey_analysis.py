@@ -194,4 +194,4 @@ def read_survey_csv(path):
 
 
 os.chdir("Scripts")
-read_survey_csv("../Datasets/SurveyAnlysisOutput.csv")
+read_survey_csv("../Data/SurveyAnlysisOutput.csv")
