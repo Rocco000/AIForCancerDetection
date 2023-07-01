@@ -94,17 +94,24 @@ def compute_segmentation(image_path):
     # Extracts the remaining part of the image
     background = cv2.bitwise_and(image, image, mask=cv2.bitwise_not(contrast_mask))
 
-    roi=cv2.cvtColor(roi, cv2.COLOR_BGR2GRAY)
-    background=cv2.cvtColor(background, cv2.COLOR_BGR2GRAY)
+    #Show the segmentation
     cv2.imshow('ROI', roi)
     cv2.imshow('Back', background)
     cv2.waitKey(0)
     cv2.destroyAllWindows()
+
+    #Converts ROI and background in grayscale
+    roi=cv2.cvtColor(roi, cv2.COLOR_BGR2GRAY)
+    background=cv2.cvtColor(background, cv2.COLOR_BGR2GRAY)
+    
     return roi, background
 
 
 def calculate_CNR(images_paths):
+    #List containing CNR values of images
     images_CNR=list()
+    #List containing contrast between ROI and background of images
+    images_contrast=list()
     for image_path in images_paths:
         #Obtain the ROI ad the background of the image
         roi,background=compute_segmentation(image_path)
@@ -130,7 +137,27 @@ def calculate_CNR(images_paths):
         #Calculate the CNR
         cnr = contrast / noise
         images_CNR.append(cnr)
-    return images_CNR
+        images_contrast.append(contrast)
+    return images_CNR,images_contrast
+
+
+def measure_image_brightness(image_path):
+    #Load the image
+    image=cv2.imread(image_path)
+
+    # Convert the image to HSV color space
+    hsv_image = cv2.cvtColor(image, cv2.COLOR_RGB2HSV)
+
+    # Extract the V channel
+    v_channel = hsv_image[:,:,2]
+
+    # Calculate the average brightness
+    average_brightness = np.mean(v_channel)
+    
+    # Normalize the average brightness to the range [0, 1]
+    normalized_brightness = average_brightness / 255.0
+
+    return normalized_brightness
 
 
 def remove_zero(image):
@@ -145,8 +172,11 @@ def remove_zero(image):
 
 
 
-image_path='Data\Dataset2\ISIC_0024370.jpg'     
+image_path='Data\Dataset2\ISIC_0024349.jpg'     
 print("SNR: ",calculate_SNR([image_path]))
 print("RMS: ",calculate_RMS_contrast([image_path]))
-print("CNR: ", calculate_CNR([image_path]))
+images_CNR,images_contrats=calculate_CNR([image_path])
+print("CNR: ", images_CNR)
+print("Contrast between ROI and background: ", images_contrats)
+print("Image brightness: ",measure_image_brightness(image_path))
 
