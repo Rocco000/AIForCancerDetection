@@ -2,8 +2,6 @@ import pandas as pd
 import matplotlib.pyplot as plt
 import os
 from wordcloud import WordCloud
-import numpy as np
-from scipy.spatial import distance
 
 #Performe a box plot of its input
 def box_plot(data, x_label, y_label, title):
