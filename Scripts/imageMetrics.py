@@ -1,84 +1,53 @@
 import cv2
 import numpy as np
 import os
-import pandas as pd
-import matplotlib.pyplot as plt
-from PIL import Image
 
-def calculate_blur(image):
+
+def calculate_sharpness(image):
     # Convert image to grayscale
     gray = cv2.cvtColor(image, cv2.COLOR_BGR2GRAY)
     # Compute the Laplacian of the image
     laplacian = cv2.Laplacian(gray, cv2.CV_64F)
-    # Compute the variance of the Laplacian
-    variance = np.var(laplacian)
-    return variance
+    # Compute the variance of the Laplacian (sharpness)
+    sharpness = np.var(laplacian)
+    return sharpness
+
+def calculate_SNR(roi,background):
+    #Calculate means and standard deviation of ROI
+    mean_roi = np.mean(roi)
+    std_dev_roi = np.std(roi)
+
+    #Calculate and standard deviation of background
+    std_dev_background = np.std(background)
     
-def calculate_sharpness(partial_path, images):
-    list_of_sharpness= list()
-    for image in images:
-        path= os.path.join(partial_path,image)
-        # Load the image
-        img = cv2.imread(path)
-        # Calculate the image sharpness
-        sharpness = calculate_blur(img)
-        #Store the sharpness
-        list_of_sharpness.append(sharpness)
-    return list_of_sharpness
+    #Calculate the noise of the image
+    noise = np.sqrt(std_dev_roi**2 + std_dev_background**2)
 
-def calculate_SNR(images_paths):
-    images_snr=list()
-    for image_path in images_paths:
-        #Obtain the ROI ad the background of the image
-        roi,background=compute_segmentation(image_path)
+    # Calculate the signal-to-noise ratio (SNR)
+    snr = mean_roi / noise #SNR=average ROI singnal/noise 
 
-        #Remove zeros from ROI and background
-        roi=remove_zero(roi)
-        background=remove_zero(background)
+    return snr
 
-        #Calculate means and standard deviation of ROI
-        mean_roi = np.mean(roi)
-        std_dev_roi = np.std(roi)
+def calculate_RMS_contrast(image):
+    #Convert the image in grayscale
+    image=cv2.cvtColor(image,cv2.COLOR_BGR2GRAY)
+    # Normalize the image
+    normalized_image = image.astype(float) / 255.0
 
-        #Calculate and standard deviation of background
-        std_dev_background = np.std(background)
-        
-        #Calculate the noise of the image
-        noise = np.sqrt(std_dev_roi**2 + std_dev_background**2)
+    # Calculate the mean of the normalized image
+    mean = np.mean(normalized_image)
 
-        # Calculate the signal-to-noise ratio (SNR)
-        snr = mean_roi / noise #SNR=average ROI singnal/noise 
-        images_snr.append(snr)
+    # Calculate the squared difference between each pixel and the mean
+    squared_diff = np.square(normalized_image - mean)
 
-    return images_snr
+    # Calculate the mean squared difference
+    mean_squared_diff = np.mean(squared_diff)
 
-def calculate_RMS_contrast(images_paths):
-    images_RMS_contrast=list()
-    for image_path in images_paths:
-        # Load the image
-        image = cv2.imread(image_path, cv2.IMREAD_GRAYSCALE)
+    # Calculate the RMS contrast
+    rms_contrast = np.sqrt(mean_squared_diff)
+    return rms_contrast
 
-        # Normalize the image
-        normalized_image = image.astype(float) / 255.0
-
-        # Calculate the mean of the normalized image
-        mean = np.mean(normalized_image)
-
-        # Calculate the squared difference between each pixel and the mean
-        squared_diff = np.square(normalized_image - mean)
-
-        # Calculate the mean squared difference
-        mean_squared_diff = np.mean(squared_diff)
-
-        # Calculate the RMS contrast
-        rms_contrast = np.sqrt(mean_squared_diff)
-        images_RMS_contrast.append(rms_contrast)
-    return images_RMS_contrast
-
-def compute_segmentation(image_path):
-    #Load the image
-    image=cv2.imread(image_path)
-
+def compute_segmentation(image):
     # Converts the image to grayscale
     grayscale_image = cv2.cvtColor(image, cv2.COLOR_BGR2GRAY)
     
@@ -95,10 +64,10 @@ def compute_segmentation(image_path):
     background = cv2.bitwise_and(image, image, mask=cv2.bitwise_not(contrast_mask))
 
     #Show the segmentation
-    cv2.imshow('ROI', roi)
+    """ cv2.imshow('ROI', roi)
     cv2.imshow('Back', background)
     cv2.waitKey(0)
-    cv2.destroyAllWindows()
+    cv2.destroyAllWindows()"""
 
     #Converts ROI and background in grayscale
     roi=cv2.cvtColor(roi, cv2.COLOR_BGR2GRAY)
@@ -107,44 +76,27 @@ def compute_segmentation(image_path):
     return roi, background
 
 
-def calculate_CNR(images_paths):
-    #List containing CNR values of images
-    images_CNR=list()
-    #List containing contrast between ROI and background of images
-    images_contrast=list()
-    for image_path in images_paths:
-        #Obtain the ROI ad the background of the image
-        roi,background=compute_segmentation(image_path)
+def calculate_CNR(roi,background):
+    #Calculate means and standard deviation of ROI
+    mean_roi = np.mean(roi)
+    std_dev_roi = np.std(roi)
 
-        #Remove zeros from ROI and background
-        roi=remove_zero(roi)
-        background=remove_zero(background)
+    #Calculate mean and standard deviation of background
+    mean_background = np.mean(background)
+    std_dev_background = np.std(background)
 
-        #Calculate means and standard deviation of ROI
-        mean_roi = np.mean(roi)
-        std_dev_roi = np.std(roi)
+    #Calculate the contrast
+    contrast = abs(mean_roi - mean_background)
 
-        #Calculate mean and standard deviation of background
-        mean_background = np.mean(background)
-        std_dev_background = np.std(background)
+    #Calculate the noise of the image
+    noise = np.sqrt(std_dev_roi**2 + std_dev_background**2)
 
-        #Calculate the contrast
-        contrast = abs(mean_roi - mean_background)
-
-        #Calculate the noise of the image
-        noise = np.sqrt(std_dev_roi**2 + std_dev_background**2)
-
-        #Calculate the CNR
-        cnr = contrast / noise
-        images_CNR.append(cnr)
-        images_contrast.append(contrast)
-    return images_CNR,images_contrast
+    #Calculate the CNR
+    cnr = contrast / noise
+    return cnr,contrast
 
 
-def measure_image_brightness(image_path):
-    #Load the image
-    image=cv2.imread(image_path)
-
+def calculate_brightness(image):
     # Convert the image to HSV color space
     hsv_image = cv2.cvtColor(image, cv2.COLOR_RGB2HSV)
 
@@ -170,13 +122,23 @@ def remove_zero(image):
     return nonzero_pixels
 
 
-
-
-image_path='Data\Dataset2\ISIC_0024349.jpg'     
-print("SNR: ",calculate_SNR([image_path]))
-print("RMS: ",calculate_RMS_contrast([image_path]))
-images_CNR,images_contrats=calculate_CNR([image_path])
-print("CNR: ", images_CNR)
-print("Contrast between ROI and background: ", images_contrats)
-print("Image brightness: ",measure_image_brightness(image_path))
+def calculate_metrics(partial_path,images_names,label):
+    images_metrics=list()
+    for image_name in images_names:
+        image_path= os.path.join(partial_path,image_name)
+        image=cv2.imread(image_path)
+        sharpness=calculate_sharpness(image)
+        rms_contrast=calculate_RMS_contrast(image)
+        brightness=calculate_brightness(image)
+        #Obtain the ROI ad the background of the image
+        roi,background=compute_segmentation(image)
+        #Remove zeros from ROI and background
+        roi=remove_zero(roi)
+        background=remove_zero(background)
+        snr=calculate_SNR(roi,background)
+        cnr,contrast=calculate_CNR(roi,background)
+        image_metrics={'image name':image_name,'sharpness':sharpness,'brightness':brightness,'snr':snr,'cnr':cnr,'contrast':contrast,'rms contrast': rms_contrast,'label':label}
+        images_metrics.append(image_metrics)
+        print(image_metrics)
+    return images_metrics
 
