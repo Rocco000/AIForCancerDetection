@@ -12,8 +12,6 @@ def get_image_names(path):
     return img_names
 
 def build_csv_file(analysis_file_name,rows):
-    
-
     # Open CSV file in write mode
     print("Writing csv file...")
     with open(analysis_file_name, 'w', newline='') as csv_file:
@@ -29,10 +27,7 @@ def build_csv_file(analysis_file_name,rows):
 
 def compute_metrics():
     benign_folder_source_path=str(input("Insert benign folder source path:\n"))
-    malignant_folder_source_path=str(input("Insert malignant folder source path:\n"))
-    # CSV file path
-    analysis_file_name=str(input("Insert analysis file name:"))
-    analysis_file_name= os.path.join("Data/",analysis_file_name)
+    malignant_folder_source_path=str(input("Insert melanoma folder source path:\n"))
 
     print("Calculating benign images metrics...")
     names_benign_images=get_image_names(benign_folder_source_path)
@@ -44,8 +39,12 @@ def compute_metrics():
     label=1
     malignant_rows=imageMetrics.calculate_metrics(malignant_folder_source_path,names_malignant_images,label)
     rows=bening_rows+malignant_rows
-    return analysis_file_name,rows
+    return rows
 
-analysis_file_name,rows=compute_metrics()
-build_csv_file(analysis_file_name,rows)
+
+
+# CSV file path
+analysis_file_name=str(input("Insert analysis file name:"))
+analysis_file_name= os.path.join("Data/",analysis_file_name)
+build_csv_file(analysis_file_name,compute_metrics())
 
