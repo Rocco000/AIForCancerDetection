@@ -17,11 +17,11 @@ def get_samples():
 
 
 def split_dataset(images):
-    source_directory_path='D:/datasets/dataset2/HAM10000_images'
-    benign_destination_directory_path='D:/datasets/dataset2/bening'
-    melanoma_destination_directory_path='D:/datasets/dataset2/melanoma'
-    carcinoma_destination_directory_path='D:/datasets/dataset2/carcinoma'
-    intraephiterial_carcinoma_bowel_desease_destination_directory_path='D:/datasets/dataset2/intraepithelial_carcinoma&Bowen_disease'
+    source_directory_path='D:/datasets/dataset1/HAM10000_images'
+    benign_destination_directory_path='D:/datasets/dataset1/bening'
+    melanoma_destination_directory_path='D:/datasets/dataset1/melanoma'
+    carcinoma_destination_directory_path='D:/datasets/dataset1/carcinoma'
+    intraephiterial_carcinoma_bowel_desease_destination_directory_path='D:/datasets/dataset1/intraepithelial_carcinoma&Bowen_disease'
     print("Splitting dataset...")
     for image in images:
         image_path=os.path.join(source_directory_path,image['image_name'])
