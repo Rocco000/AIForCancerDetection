@@ -17,10 +17,8 @@ def build_csv_file(analysis_file_name,rows):
     with open(analysis_file_name, 'w', newline='') as csv_file:
         # CReate a writer CSV
         writer = csv.DictWriter(csv_file, fieldnames=rows[0].keys())
-
         # Write header
         writer.writeheader()
-
         # Write data
         writer.writerows(rows)
 
@@ -44,7 +42,8 @@ def compute_metrics():
 
 
 # CSV file path
+folder_path=str(input("Insert folder path in which save csv file:"))
 analysis_file_name=str(input("Insert analysis file name:"))
-analysis_file_name= os.path.join("Data/",analysis_file_name)
+analysis_file_name= os.path.join(folder_path,analysis_file_name)
 build_csv_file(analysis_file_name,compute_metrics())
 

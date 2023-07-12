@@ -19,13 +19,13 @@ def resize_images(source_partial_path, images_names,destination_partial_path):
         cv2.imwrite(destination_image_path,image)
 
 
-#benign_folder_source_path=str(input("Insert benign folder source path:\n"))
+benign_folder_source_path=str(input("Insert benign folder source path:\n"))
 malignant_folder_source_path=str(input("Insert malignant folder source path:\n"))
-#benign_folder_destination_path=str(input("Insert benign folder destination path:\n"))
+benign_folder_destination_path=str(input("Insert benign folder destination path:\n"))
 malignant_folder_destination_path=str(input("Insert malignant folder destination path:\n"))
-"""benign_images_names=get_image_names(benign_folder_source_path)
+benign_images_names=get_image_names(benign_folder_source_path)
 print("Resizing benign images...")
-resize_images(benign_folder_source_path,benign_images_names,benign_folder_destination_path)"""
+resize_images(benign_folder_source_path,benign_images_names,benign_folder_destination_path)
 malignant_images_names=get_image_names(malignant_folder_source_path)
 print("Resizing malignant images...")
 resize_images(malignant_folder_source_path,malignant_images_names,malignant_folder_destination_path)

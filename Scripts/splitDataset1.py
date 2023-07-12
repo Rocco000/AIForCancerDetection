@@ -5,7 +5,7 @@ import os
 def get_samples():
     images=list()
     # Open the cvs file in read mode
-    with open('Data/HAM10000_metadata.csv', 'r') as file:
+    with open('Data\Dataset1\HAM10000_metadata.csv', 'r') as file:
         # Create a reader object to read csv file
         reader = csv.reader(file)
         #Skip the first row of csv file

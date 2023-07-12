@@ -65,6 +65,7 @@ path=str(input("Insert source path of challenge metadata csv: "))
 copy_melanoma_images(get_melanoma_names(path))
 
 #Remove duplicates from ISIC 2019 melanoma images
-file_name=str(input("Insert file name on which store the name of duplicated removed images:"))
-path=os.path.join('Data/',file_name)
+folder_path=str(input("Insert folder path in which save csv file:"))
+file_name=str(input("Insert file name in which store the name of duplicated removed images:"))
+path=os.path.join(folder_path,file_name)
 build_csv_file(path,remove_duplicates(get_images_names()))
