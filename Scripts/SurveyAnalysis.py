@@ -4,11 +4,12 @@ import os
 from wordcloud import WordCloud
 
 #Performe a box plot of its input
-def box_plot(data, x_label, y_label, title):
+def box_plot(data, x_label, y_label, title, image_name):
     data.plot(kind='bar')
     plt.xlabel(x_label)
     plt.ylabel(y_label)
     plt.title(title)
+    plt.savefig('Data/SurveyResults/'+image_name+'.png')
     plt.show()
 
 def box_plot_horizzontal(answers, x_label, y_label, title):
@@ -45,7 +46,7 @@ def box_plot_horizzontal(answers, x_label, y_label, title):
     plt.title(title)
     plt.show()
 
-def cluster_plot(to_plot, title):
+def cluster_plot(to_plot, title,image_name):
     data = dict()
     for feature in to_plot:
         features_str = str(feature)
@@ -77,7 +78,7 @@ def cluster_plot(to_plot, title):
     plt.imshow(wordcloud, interpolation='bilinear')
     plt.axis('off')
     plt.title(title)
-    # Display the plot
+    plt.savefig('Data/SurveyResults/'+image_name+'.png')
     plt.show()
 
 def plot_degree(csv_file):
@@ -115,32 +116,38 @@ def job_experience_analysis(csv_file):
 
     # Calculate the counts of each job experience value
     experience_counts = pd.Series(job_experience).value_counts()
-
-    box_plot(experience_counts, "Job experience years", "Num. Answers", "Participants' job experience years")
+    sorted_experience_counts=experience_counts.sort_index()
+    box_plot(sorted_experience_counts, "Job experience years", "Num. Answers", "Participants' job experience years", "jobExperience")
 
 def experience_in_dermatology(csv_file):
     exp_dermatology = csv_file["How much experience do you have in dermatology?"].value_counts()
-    box_plot(data=exp_dermatology, x_label="Experience in dermatology", y_label="Num. Answers", title="Experience in dermatology")
+    sorted_exp_dermatology=exp_dermatology.sort_index()
+    box_plot(data=sorted_exp_dermatology, x_label="Experience in dermatology", y_label="Num. Answers", title="Experience in dermatology", image_name="experienceInDermatology")
 
 def dermoscopic_image_relevance(csv_file):
     relevance = csv_file["How much does dermoscopic image affect melanoma diagnosis?"].value_counts()
-    box_plot(data=relevance, x_label="Relevance on diagnosis", y_label="Num. Answers", title="Dermoscopic image relevance on diagnosis")
+    sorted_relevance=relevance.sort_index()
+    box_plot(data=sorted_relevance, x_label="Relevance on diagnosis", y_label="Num. Answers", title="Dermoscopic image relevance on diagnosis",image_name="dermoscopicImageRelevance")
 
 def histological_image_relevance(csv_file):
     relevance = csv_file["How much does histological image affect melanoma diagnosis?"].value_counts()
-    box_plot(data=relevance, x_label="Relevance on diagnosis", y_label="Num. Answers", title="Histological image relevance on diagnosis")
+    sorted_relevance=relevance.sort_index()
+    box_plot(data=sorted_relevance, x_label="Relevance on diagnosis", y_label="Num. Answers", title="Histological image relevance on diagnosis",image_name="histologicalImageRelevance")
 
 def diagnosis_reliability_dermoscopic(csv_file):
     relevance = csv_file["If only the dermoscopic image is available, how reliable is the diagnosis?"].value_counts()
-    box_plot(data=relevance, x_label="Diagnosis reliability", y_label="Num. Answers", title="Diagnosis reliability with only dermoscopic image")
+    sorted_relevance=relevance.sort_index()
+    box_plot(data=sorted_relevance, x_label="Diagnosis reliability", y_label="Num. Answers", title="Diagnosis reliability with only dermoscopic image",image_name="diagnosisReliabilityDermoscopic")
 
 def diagnosis_reliability_histological(csv_file):
     relevance = csv_file["If only the histological image is available, how reliable is the diagnosis?"].value_counts()
-    box_plot(data=relevance, x_label="Diagnosis reliability", y_label="Num. Answers", title="Diagnosis reliability with only histological image")
+    sorted_relevance=relevance.sort_index()
+    box_plot(data=sorted_relevance, x_label="Diagnosis reliability", y_label="Num. Answers", title="Diagnosis reliability with only histological image", image_name="diagnosisReliabilityHistological")
 
 def diagnosis_reliability_both(csv_file):
     relevance = csv_file["If I have both the histological and dermoscopic images available, how reliable is the diagnosis?"].value_counts()
-    box_plot(data=relevance, x_label="Diagnosis reliability", y_label="Num. Answers", title="Diagnosis reliability with both image types")
+    sorted_relevance=relevance.sort_index()
+    box_plot(data=sorted_relevance, x_label="Diagnosis reliability", y_label="Num. Answers", title="Diagnosis reliability with both image types", image_name="diagnosisReliabilityBoth")
 
 def dermoscopic_problems(csv_file):
     answers = csv_file["What are the problems that can be encountered when acquiring a dermoscopic image?"]
@@ -157,11 +164,11 @@ def useful_metrics(csv_file):
 
 def dermoscopic_features(csv_file):
     features = csv_file['What are the relevant dermoscopic image features on which you focus more?'].dropna()
-    cluster_plot(features, "Relevant dermoscopic features")
+    cluster_plot(features, "Relevant dermoscopic features","dermoscopicRelevantFeatures")
 
 def histological_features(csv_file):
     features = csv_file['What are the relevant histological image features on which you focus more?'].dropna()
-    cluster_plot(features, "Relevant histological features")  
+    cluster_plot(features, "Relevant histological features", "histologicalRelevantFeatures")  
 
 def plot_nationality(csv_file):
     nat = csv_file['Nationality']
@@ -191,5 +198,5 @@ def read_survey_csv(path):
     
 
 
-os.chdir("Scripts")
-read_survey_csv("../Data/SurveyAnlysisOutput.csv")
+#os.chdir("Scripts")
+read_survey_csv("Data\SurveyAnlysisOutput.csv")
