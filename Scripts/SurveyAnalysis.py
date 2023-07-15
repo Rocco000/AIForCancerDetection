@@ -6,6 +6,7 @@ from wordcloud import WordCloud
 #Performe a box plot of its input
 def box_plot(data, x_label, y_label, title, image_name):
     data.plot(kind='bar')
+    plt.rcParams.update({'font.size': 10})
     plt.xlabel(x_label)
     plt.ylabel(y_label)
     plt.title(title)
@@ -38,7 +39,8 @@ def box_plot_horizzontal(answers, x_label, y_label, title):
                 data[issue_str] = 1
     
     to_plot = pd.Series(data)
-
+    #Set font size to 14
+    plt.rcParams.update({'font.size': 14})
     plt.figure(figsize=(10, 8))
     to_plot.plot(kind='barh')
     plt.xlabel(x_label)
@@ -73,7 +75,7 @@ def cluster_plot(to_plot, title,image_name):
 
     #Define the cluster plot
     wordcloud = WordCloud(width=800, height=400, background_color='white').generate_from_frequencies(data)
-
+    plt.rcParams.update({'font.size': 10})
     plt.figure(figsize=(10, 5))
     plt.imshow(wordcloud, interpolation='bilinear')
     plt.axis('off')
@@ -113,7 +115,7 @@ def job_experience_analysis(csv_file):
     
     num_rows = csv_file.shape[0]-1 #Get the number of csv rows (-1 to remove the string value)
     print("The mean job experience is: ",sum/num_rows)
-
+    plt.rcParams.update({'font.size': 10})
     # Calculate the counts of each job experience value
     experience_counts = pd.Series(job_experience).value_counts()
     sorted_experience_counts=experience_counts.sort_index()
@@ -151,12 +153,12 @@ def diagnosis_reliability_both(csv_file):
 
 def dermoscopic_problems(csv_file):
     answers = csv_file["What are the problems that can be encountered when acquiring a dermoscopic image?"]
-    box_plot_horizzontal(answers, "Num. Answers", "Problems", "Problem when acquiring a dermoscopic image")
+    box_plot_horizzontal(answers, "Num. Answers", "Problems", "Problems when acquiring a dermoscopic image")
 
 def histological_problems(csv_file):
     answers = csv_file["What are the problems that can be encountered when acquiring a histological image?"]
     answers = answers.dropna()
-    box_plot_horizzontal(answers, "Num. Answers", "Problems", "Problem when acquiring a histological image")
+    box_plot_horizzontal(answers, "Num. Answers", "Problems", "Problems when acquiring a histological image")
 
 def useful_metrics(csv_file):
     answers = csv_file["What are the useful metrics to evaluate a dermoscopic image quality?"] #select only the rows with a no empty value
