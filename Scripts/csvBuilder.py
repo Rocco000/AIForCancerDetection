@@ -1,6 +1,5 @@
 import os
-import pandas as pd
-import imageMetrics
+import ImageMetrics
 import csv
 
 #return the name of all files in path and the number of files
@@ -24,20 +23,21 @@ def build_csv_file(analysis_file_name,rows):
 
 
 def compute_metrics():
-    benign_folder_source_path=str(input("Insert benign folder source path:\n"))
+    #benign_folder_source_path=str(input("Insert benign folder source path:\n"))
     malignant_folder_source_path=str(input("Insert melanoma folder source path:\n"))
 
     print("Calculating benign images metrics...")
     names_benign_images=get_image_names(benign_folder_source_path)
     label=0
-    bening_rows=imageMetrics.calculate_metrics(benign_folder_source_path,names_benign_images,label)
+    bening_rows=ImageMetrics.calculate_metrics(benign_folder_source_path,names_benign_images,label)
 
     print("Calculating malignant images metrics...")
     names_malignant_images=get_image_names(malignant_folder_source_path)
     label=1
-    malignant_rows=imageMetrics.calculate_metrics(malignant_folder_source_path,names_malignant_images,label)
+    malignant_rows=ImageMetrics.calculate_metrics(malignant_folder_source_path,names_malignant_images,label)
     rows=bening_rows+malignant_rows
     return rows
+    return malignant_rows
 
 
 

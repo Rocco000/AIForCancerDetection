@@ -12,19 +12,13 @@ def calculate_sharpness(image):
     sharpness = np.var(laplacian)
     return sharpness
 
-def calculate_SNR(roi,background):
+def calculate_SNR(roi):
     #Calculate means and standard deviation of ROI
     mean_roi = np.mean(roi)
     std_dev_roi = np.std(roi)
 
-    #Calculate and standard deviation of background
-    std_dev_background = np.std(background)
-    
-    #Calculate the noise of the image
-    noise = np.sqrt(std_dev_roi**2 + std_dev_background**2)
-
     # Calculate the signal-to-noise ratio (SNR)
-    snr = mean_roi / noise #SNR=average ROI singnal/noise 
+    snr = mean_roi / std_dev_roi
 
     return snr
 
@@ -81,18 +75,14 @@ def calculate_CNR(roi,background):
     mean_roi = np.mean(roi)
     std_dev_roi = np.std(roi)
 
-    #Calculate mean and standard deviation of background
+    #Calculate mean of background
     mean_background = np.mean(background)
-    std_dev_background = np.std(background)
 
     #Calculate the contrast
     contrast = abs(mean_roi - mean_background)
 
-    #Calculate the noise of the image
-    noise = np.sqrt(std_dev_roi**2 + std_dev_background**2)
-
     #Calculate the CNR
-    cnr = contrast / noise
+    cnr = contrast / std_dev_roi
     return cnr,contrast
 
 
@@ -135,7 +125,7 @@ def calculate_metrics(partial_path,images_names,label):
         #Remove zeros from ROI and background
         roi=remove_zero(roi)
         background=remove_zero(background)
-        snr=calculate_SNR(roi,background)
+        snr=calculate_SNR(roi)
         cnr,contrast=calculate_CNR(roi,background)
         image_metrics={'image name':image_name,'sharpness':sharpness,'brightness':brightness,'snr':snr,'cnr':cnr,'contrast':contrast,'rms contrast': rms_contrast,'label':label}
         images_metrics.append(image_metrics)
