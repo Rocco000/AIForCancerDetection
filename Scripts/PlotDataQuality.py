@@ -31,7 +31,7 @@ def plot_sharpness():
     plt.subplot(1, 2, 1)
     plt.boxplot([df_uncleaned['sharpness'],df_cleaned['sharpness']]) 
     labels=['Uncleaned images','Cleaned images']
-    plt.title('Compairson uncleaned/cleaned data')
+    plt.title('Comparison uncleaned/cleaned data')
     plt.xticks(range(1, len(labels) + 1), labels)
     plt.ylabel('Values')
 
@@ -56,7 +56,7 @@ def plot_brightness():
     plt.subplot(1, 2, 1)
     plt.boxplot([df_uncleaned['brightness'],df_cleaned['brightness']]) 
     labels=['Uncleaned images','Cleaned images']
-    plt.title('Compairson uncleaned/cleaned data')
+    plt.title('Comparison uncleaned/cleaned data')
     plt.xticks(range(1, len(labels) + 1), labels)
     plt.ylabel('Values')
 
@@ -81,7 +81,7 @@ def plot_snr():
     plt.subplot(1, 2, 1)
     plt.boxplot([df_uncleaned['snr'],df_cleaned['snr']]) 
     labels=['Uncleaned images','Cleaned images']
-    plt.title('Compairson uncleaned/cleaned data')
+    plt.title('Comparison uncleaned/cleaned data')
     plt.xticks(range(1, len(labels) + 1), labels)
     plt.ylabel('Values')
 
@@ -106,7 +106,7 @@ def plot_cnr():
     plt.subplot(1, 2, 1)
     plt.boxplot([df_uncleaned['cnr'],df_cleaned['cnr']]) 
     labels=['Uncleaned images','Cleaned images']
-    plt.title('Compairson uncleaned/cleaned data')
+    plt.title('Comparison uncleaned/cleaned data')
     plt.xticks(range(1, len(labels) + 1), labels)
     plt.ylabel('Values')
 
@@ -131,7 +131,7 @@ def plot_contrast():
     plt.subplot(1, 2, 1)
     plt.boxplot([df_uncleaned['contrast'],df_cleaned['contrast']]) 
     labels=['Uncleaned images','Cleaned images']
-    plt.title('Compairson uncleaned/cleaned data')
+    plt.title('Comparison uncleaned/cleaned data')
     plt.xticks(range(1, len(labels) + 1), labels)
     plt.ylabel('Values')
 
@@ -156,7 +156,7 @@ def plot_RMS_contrast():
     plt.subplot(1, 2, 1)
     plt.boxplot([df_uncleaned['rms contrast'],df_cleaned['rms contrast']]) 
     labels=['Uncleaned images','Cleaned images']
-    plt.title('Compairson uncleaned/cleaned data')
+    plt.title('Comparison uncleaned/cleaned data')
     plt.xticks(range(1, len(labels) + 1), labels)
     plt.ylabel('Values')
 
