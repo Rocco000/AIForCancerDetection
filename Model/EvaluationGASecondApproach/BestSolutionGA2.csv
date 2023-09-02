@@ -1,0 +1,2 @@
+learning_rate,batch_size,num_epoch,optimizer,layer1,layer2,layer3,layer4,layer5,layer6,layer7,layer8,layer9,layer10,layer11,layer12,layer13,layer14,layer15,layer16,fitness_value,accuracy,precision,recall,f1,evaluation
+0.00577,1,1,2,6,2,5,12,3,5,13,8,3,2,11,13,8,3,4,13,0.1589079922164729,0.8010752688172043,0.6628814762242725,0.8584558823529411,0.7480977172607127,0.7785287175007598
