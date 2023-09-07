@@ -21,8 +21,8 @@
  We developed three AI models:
  * [Base model](https://github.com/Rocco000/OncoVision/blob/main/Scripts/ModelsScripts/ModelArchitecture1.ipynb) is a simple convolutional neural network;
  * Two genetic algorithms that produce a population of Convolutional Neural Networks (CNNs) optimized from two points of view:
-  * The [GA1](https://github.com/Rocco000/OncoVision/blob/main/Scripts/ModelsScripts/GAapproach1.ipynb) goal is to improve the training algorithm hyperparameters of the base mode;
-  * The [GA2](https://github.com/Rocco000/OncoVision/blob/main/Scripts/ModelsScripts/GAApproach2.ipynb) goal is to improve both training algorithm hyperparameters and network architecture.
+      * The [GA1](https://github.com/Rocco000/OncoVision/blob/main/Scripts/ModelsScripts/GAapproach1.ipynb) goal is to improve the training algorithm hyperparameters of the base mode;
+      * The [GA2](https://github.com/Rocco000/OncoVision/blob/main/Scripts/ModelsScripts/GAApproach2.ipynb) goal is to improve both training algorithm hyperparameters and network architecture.
   We defined the same objective function for both GA versions and it is the follows : $f(x)= w_1 * accuracy+w_2 * precision+w_3 * recall$ where $w_1=0.2$, $w_2=0.35$ and $w_3=0.45$.
 
 ## 📊 Results
@@ -38,12 +38,12 @@
 
 ## ⚙️ ​Project structure
 
- * Data directory contains the data quality and survey results;
- * Documentation directory contains the project documentation;
- * Model directory contrains the evaluation metrics of the models and the results of the genetic algorithms;
- * Scripts directory contains two subfolders:
-  * DataPreprocessingScripts contains all scripts to pre-process the collected data;
-  * ModelsScripts contains all code necessary to develop melanoma detection AI system.
+ * __Data__ directory contains the data quality and survey results;
+ * __Documentation__ directory contains the project documentation;
+ * __Model__ directory contrains the evaluation metrics of the models and the results of the genetic algorithms;
+ * __Scripts__ directory contains two subfolders:
+      * __DataPreprocessingScripts__ contains all scripts to pre-process the collected data;
+      * __ModelsScripts__ contains all code necessary to develop melanoma detection AI system.
 
 ## 💻 Project environment
 
