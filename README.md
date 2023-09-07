@@ -48,7 +48,9 @@
 ## 💻 Project environment
 
  Please download the necessary library indicated in requirements.txt to run the pre-processing scripts.
- `code(pip install -r requirements.txt)`
+ 
+ `pip install -r requirements.txt`
+ 
  To run models, you can modify the code snippet and insert the appropriate path. MLflow was used to track the performance of the models. If you don't want to use it, remove the corresponding code.
 
 ## 📧 ​Contact
